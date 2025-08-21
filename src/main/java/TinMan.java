@@ -82,6 +82,30 @@ public class TinMan {
                     taskList.append("\n ").append(i + 1).append(".").append(tasks[i]);
                 }
                 printSection(taskList.toString());
+            } else if (input.startsWith("mark ")) {
+                try {
+                    int taskIndex = Integer.parseInt(input.substring(5)) - 1;
+                    if (taskIndex >= 0 && taskIndex < taskCount) {
+                        tasks[taskIndex].markAsDone();
+                        printSection("Nice! I've marked this task as done:\n  " + tasks[taskIndex]);
+                    } else {
+                        printSection("Invalid task number!");
+                    }
+                } catch (NumberFormatException e) {
+                    printSection("Please provide a valid task number!");
+                }
+            } else if (input.startsWith("unmark ")) {
+                try {
+                    int taskIndex = Integer.parseInt(input.substring(7)) - 1;
+                    if (taskIndex >= 0 && taskIndex < taskCount) {
+                        tasks[taskIndex].markAsNotDone();
+                        printSection("OK, I've marked this task as not done yet:\n  " + tasks[taskIndex]);
+                    } else {
+                        printSection("Invalid task number!");
+                    }
+                } catch (NumberFormatException e) {
+                    printSection("Please provide a valid task number!");
+                }
             } else {
                 tasks[taskCount++] = new Task(input);
                 printSection("added: " + input);
