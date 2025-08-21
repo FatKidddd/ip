@@ -54,20 +54,27 @@ public class TinMan {
     }
 
     private void processCommand(String input) {
-        String command = Parser.getCommand(input);
+        CommandType commandType = CommandType.fromString(Parser.getCommand(input));
 
-        if (command.equals("bye")) {
+        switch (commandType) {
+        case BYE:
             ui.showGoodbye();
-        } else if (command.equals("list")) {
+            break;
+        case LIST:
             handleListCommand();
-        } else if (command.equals("mark")) {
+            break;
+        case MARK:
             handleMarkCommand(input);
-        } else if (command.equals("unmark")) {
+            break;
+        case UNMARK:
             handleUnmarkCommand(input);
-        } else if (command.equals("delete")) {
+            break;
+        case DELETE:
             handleDeleteCommand(input);
-        } else {
+            break;
+        default:
             handleAddTaskCommand(input);
+            break;
         }
     }
 
@@ -76,11 +83,11 @@ public class TinMan {
 
         while (true) {
             String input = ui.readCommand();
-            String command = Parser.getCommand(input);
+            CommandType commandType = CommandType.fromString(Parser.getCommand(input));
 
             processCommand(input);
 
-            if (command.equals("bye")) {
+            if (commandType == CommandType.BYE) {
                 break;
             }
         }

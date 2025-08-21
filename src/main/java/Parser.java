@@ -56,28 +56,31 @@ public class Parser {
 
     public static Task parseTask(String input) throws TinManException {
         String trimmedInput = input.trim();
+        CommandType commandType = CommandType.fromString(getCommand(trimmedInput));
 
-        if (trimmedInput.equals("todo")) {
-            throw new TinManException.EmptyDescriptionException("todo");
-        } else if (trimmedInput.startsWith("todo ")) {
-            return parseTodo(trimmedInput);
-        } else if (trimmedInput.equals("deadline")) {
-            throw new TinManException.EmptyDescriptionException("deadline");
-        } else if (trimmedInput.startsWith("deadline ")) {
-            return parseDeadline(trimmedInput);
-        } else if (trimmedInput.equals("event")) {
-            throw new TinManException.EmptyDescriptionException("event");
-        } else if (trimmedInput.startsWith("event ")) {
-            return parseEvent(trimmedInput);
-        } else {
-            // Check if it's a known command without arguments
-            String command = getCommand(trimmedInput);
-            if (command.equals("list") || command.equals("mark") || command.equals("unmark") || command.equals("delete")
-                    || command.equals("bye")) {
-                throw new TinManException.UnknownCommandException();
+        switch (commandType) {
+        case TODO:
+            if (trimmedInput.equals(CommandType.TODO.getKeyword())) {
+                throw new TinManException.EmptyDescriptionException("todo");
             }
-
-            // Unknown command - not a valid todo either
+            return parseTodo(trimmedInput);
+        case DEADLINE:
+            if (trimmedInput.equals(CommandType.DEADLINE.getKeyword())) {
+                throw new TinManException.EmptyDescriptionException("deadline");
+            }
+            return parseDeadline(trimmedInput);
+        case EVENT:
+            if (trimmedInput.equals(CommandType.EVENT.getKeyword())) {
+                throw new TinManException.EmptyDescriptionException("event");
+            }
+            return parseEvent(trimmedInput);
+        case LIST:
+        case MARK:
+        case UNMARK:
+        case DELETE:
+        case BYE:
+            throw new TinManException.UnknownCommandException();
+        default:
             throw new TinManException.UnknownCommandException();
         }
     }
