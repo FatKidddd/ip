@@ -46,7 +46,7 @@ public class TinMan {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
         String input;
-        String[] tasks = new String[100];
+        Task[] tasks = new Task[100];
         int taskCount = 0;
 
         printLine();
@@ -77,16 +77,13 @@ public class TinMan {
                 printSection("Bye. Hope to see you again soon!");
                 break;
             } else if (input.equals("list")) {
-                StringBuilder taskList = new StringBuilder();
+                StringBuilder taskList = new StringBuilder("Here are the tasks in your list:");
                 for (int i = 0; i < taskCount; i++) {
-                    taskList.append((i + 1)).append(". ").append(tasks[i]);
-                    if (i != taskCount - 1) {
-                        taskList.append("\n ");
-                    }
+                    taskList.append("\n ").append(i + 1).append(".").append(tasks[i]);
                 }
                 printSection(taskList.toString());
             } else {
-                tasks[taskCount++] = input;
+                tasks[taskCount++] = new Task(input);
                 printSection("added: " + input);
             }
         }
