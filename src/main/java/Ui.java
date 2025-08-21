@@ -13,7 +13,7 @@ public class Ui {
     }
 
     public void showMessage(String message) {
-        System.out.println(" " + message);
+        System.out.println(message);
         showLine();
     }
 
@@ -36,7 +36,7 @@ public class Ui {
                              |  ,   / '---'       |   ;/         |  ,     .-./'---'
                               ---`-'              '---'           `--`---'
                 """);
-        showMessage("Hello! I'm TinMan\n What can I do for you?");
+        showMessage("Hello! I'm TinMan\nWhat can I do for you?");
     }
 
     public void showGoodbye() {
