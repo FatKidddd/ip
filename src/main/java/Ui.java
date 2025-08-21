@@ -60,6 +60,11 @@ public class Ui {
         showMessage("OK, I've marked this task as not done yet:\n  " + task);
     }
 
+    public void showTaskDeleted(Task task, int remainingCount) {
+        showMessage("Noted. I've removed this task:\n  " + task +
+                "\nNow you have " + remainingCount + " task" + (remainingCount == 1 ? "" : "s") + " in the list.");
+    }
+
     public void showTaskList(String taskList) {
         showMessage(taskList);
     }

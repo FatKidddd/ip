@@ -72,7 +72,8 @@ public class Parser {
         } else {
             // Check if it's a known command without arguments
             String command = getCommand(trimmedInput);
-            if (command.equals("list") || command.equals("mark") || command.equals("unmark") || command.equals("bye")) {
+            if (command.equals("list") || command.equals("mark") || command.equals("unmark") || command.equals("delete")
+                    || command.equals("bye")) {
                 throw new TinManException.UnknownCommandException();
             }
 
@@ -86,12 +87,11 @@ public class Parser {
     }
 
     public static int parseTaskNumber(String input) throws TinManException {
-        String[] parts = input.split(" ", 2);
-        if (parts.length <= 1) {
-            throw new TinManException.InvalidTaskNumberException();
-        }
-
         try {
+            String[] parts = input.split(" ", 2);
+            if (parts.length <= 1) {
+                throw new TinManException.InvalidTaskNumberException();
+            }
             int taskNumber = Integer.parseInt(parts[1]);
             if (taskNumber <= 0) {
                 throw new TinManException.InvalidTaskNumberException();

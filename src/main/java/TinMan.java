@@ -33,6 +33,16 @@ public class TinMan {
         }
     }
 
+    private void handleDeleteCommand(String input) {
+        try {
+            int taskIndex = Parser.parseTaskNumber(input);
+            Task deletedTask = taskList.deleteTask(taskIndex);
+            ui.showTaskDeleted(deletedTask, taskList.getTaskCount());
+        } catch (TinManException e) {
+            ui.showError(e.getMessage());
+        }
+    }
+
     private void handleAddTaskCommand(String input) {
         try {
             Task task = Parser.parseTask(input);
@@ -54,6 +64,8 @@ public class TinMan {
             handleMarkCommand(input);
         } else if (command.equals("unmark")) {
             handleUnmarkCommand(input);
+        } else if (command.equals("delete")) {
+            handleDeleteCommand(input);
         } else {
             handleAddTaskCommand(input);
         }
