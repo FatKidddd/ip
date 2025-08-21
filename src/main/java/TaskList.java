@@ -1,42 +1,45 @@
+import java.util.ArrayList;
+
 public class TaskList {
-    private static final int MAX_TASKS = 100;
-    private Task[] tasks;
-    private int taskCount;
+    private ArrayList<Task> tasks;
 
     public TaskList() {
-        this.tasks = new Task[MAX_TASKS];
-        this.taskCount = 0;
+        this.tasks = new ArrayList<>();
     }
 
-    public void addTask(Task task) throws TinManException {
-        if (taskCount >= MAX_TASKS) {
-            throw new TinManException.TaskListFullException();
-        }
-        tasks[taskCount++] = task;
+    public void addTask(Task task) {
+        tasks.add(task);
     }
 
     public Task getTask(int index) throws TinManException {
-        if (index < 0 || index >= taskCount) {
+        if (index < 0 || index >= tasks.size()) {
             throw new TinManException.TaskNotFoundException();
         }
-        return tasks[index];
+        return tasks.get(index);
+    }
+
+    public Task deleteTask(int index) throws TinManException {
+        if (index < 0 || index >= tasks.size()) {
+            throw new TinManException.TaskNotFoundException();
+        }
+        return tasks.remove(index);
     }
 
     public int getTaskCount() {
-        return taskCount;
+        return tasks.size();
     }
 
     public boolean isValidIndex(int index) {
-        return index >= 0 && index < taskCount;
+        return index >= 0 && index < tasks.size();
     }
 
     public String listTasks() {
-        if (taskCount == 0) {
+        if (tasks.isEmpty()) {
             return "Here are the tasks in your list:\n (empty)";
         }
         StringBuilder taskList = new StringBuilder("Here are the tasks in your list:");
-        for (int i = 0; i < taskCount; i++) {
-            taskList.append("\n ").append(i + 1).append(".").append(tasks[i]);
+        for (int i = 0; i < tasks.size(); i++) {
+            taskList.append("\n ").append(i + 1).append(".").append(tasks.get(i));
         }
         return taskList.toString();
     }
