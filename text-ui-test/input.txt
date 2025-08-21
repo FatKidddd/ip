@@ -17,4 +17,5 @@ mark 5
 list
 todo
 blah
+delete 3
 bye
