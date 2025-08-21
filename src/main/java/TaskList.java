@@ -8,17 +8,18 @@ public class TaskList {
         this.taskCount = 0;
     }
 
-    public void addTask(Task task) {
-        if (taskCount < MAX_TASKS) {
-            tasks[taskCount++] = task;
+    public void addTask(Task task) throws TinManException {
+        if (taskCount >= MAX_TASKS) {
+            throw new TinManException.TaskListFullException();
         }
+        tasks[taskCount++] = task;
     }
 
-    public Task getTask(int index) {
-        if (index >= 0 && index < taskCount) {
-            return tasks[index];
+    public Task getTask(int index) throws TinManException {
+        if (index < 0 || index >= taskCount) {
+            throw new TinManException.TaskNotFoundException();
         }
-        return null;
+        return tasks[index];
     }
 
     public int getTaskCount() {
