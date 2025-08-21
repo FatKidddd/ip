@@ -1,3 +1,5 @@
+import java.util.Scanner;
+
 public class TinMan {
     private static final int LINE_LENGTH = 60;
 
@@ -11,6 +13,9 @@ public class TinMan {
     }
 
     public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        String input;
+
         printLine();
 
         printSection("""
@@ -31,6 +36,18 @@ public class TinMan {
                               ---`-'              '---'           `--`---'
                 """);
         printSection("Hello! I'm TinMan\n What can I do for you?");
-        printSection("Bye. Hope to see you again soon!");
+
+        while (true) {
+            input = scanner.nextLine();
+
+            if (input.equals("bye")) {
+                printSection("Bye. Hope to see you again soon!");
+                break;
+            } else {
+                printSection(input);
+            }
+        }
+
+        scanner.close();
     }
 }
