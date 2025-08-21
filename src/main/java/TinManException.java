@@ -32,4 +32,10 @@ public class TinManException extends Exception {
             super("OOPS!!! Task list is full. Cannot add more tasks.");
         }
     }
+
+    public static class UnknownCommandException extends TinManException {
+        public UnknownCommandException() {
+            super("OOPS!!! I'm sorry, but I don't know what that means :-(");
+        }
+    }
 }
