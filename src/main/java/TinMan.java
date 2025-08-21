@@ -1,170 +1,8 @@
 import java.util.Scanner;
 
-class Parser {
-    public static Task parseTask(String input) {
-        if (input.startsWith("todo ")) {
-            String description = input.substring(5);
-            return new Todo(description);
-        } else if (input.startsWith("deadline ")) {
-            String fullCommand = input.substring(9);
-            int byIndex = fullCommand.indexOf(" /by ");
-            if (byIndex != -1) {
-                String description = fullCommand.substring(0, byIndex);
-                String by = fullCommand.substring(byIndex + 5);
-                return new Deadline(description, by);
-            }
-        } else if (input.startsWith("event ")) {
-            String fullCommand = input.substring(6);
-            int fromIndex = fullCommand.indexOf(" /from ");
-            int toIndex = fullCommand.indexOf(" /to ");
-            if (fromIndex != -1 && toIndex != -1) {
-                String description = fullCommand.substring(0, fromIndex);
-                String from = fullCommand.substring(fromIndex + 7, toIndex);
-                String to = fullCommand.substring(toIndex + 5);
-                return new Event(description, from, to);
-            }
-        } else {
-            return new Todo(input);
-        }
-        return null;
-    }
-
-    public static String getCommand(String input) {
-        String[] parts = input.split(" ", 2);
-        return parts[0];
-    }
-
-    public static int parseTaskNumber(String input) {
-        try {
-            String[] parts = input.split(" ", 2);
-            if (parts.length > 1) {
-                return Integer.parseInt(parts[1]) - 1;
-            }
-        } catch (NumberFormatException e) {
-            return -1;
-        }
-        return -1;
-    }
-}
-
-class TaskList {
-    private static final int MAX_TASKS = 100;
-    private Task[] tasks;
-    private int taskCount;
-
-    public TaskList() {
-        this.tasks = new Task[MAX_TASKS];
-        this.taskCount = 0;
-    }
-
-    public void addTask(Task task) {
-        if (taskCount < MAX_TASKS) {
-            tasks[taskCount] = task;
-            taskCount++;
-        }
-    }
-
-    public Task getTask(int index) {
-        if (index >= 0 && index < taskCount) {
-            return tasks[index];
-        }
-        return null;
-    }
-
-    public int getTaskCount() {
-        return taskCount;
-    }
-
-    public boolean isValidIndex(int index) {
-        return index >= 0 && index < taskCount;
-    }
-
-    public String listTasks() {
-        if (taskCount == 0) {
-            return "Here are the tasks in your list:\n (empty)";
-        }
-        StringBuilder taskList = new StringBuilder("Here are the tasks in your list:");
-        for (int i = 0; i < taskCount; i++) {
-            taskList.append("\n ").append(i + 1).append(".").append(tasks[i]);
-        }
-        return taskList.toString();
-    }
-}
-
-class Task {
-    protected String description;
-    protected boolean isDone;
-
-    public Task(String description) {
-        this.description = description;
-        this.isDone = false;
-    }
-
-    public String getStatusIcon() {
-        return (isDone ? "X" : " ");
-    }
-
-    public void markAsDone() {
-        this.isDone = true;
-    }
-
-    public void markAsNotDone() {
-        this.isDone = false;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    @Override
-    public String toString() {
-        return "[" + getStatusIcon() + "] " + description;
-    }
-}
-
-class Todo extends Task {
-    public Todo(String description) {
-        super(description);
-    }
-
-    @Override
-    public String toString() {
-        return "[T]" + super.toString();
-    }
-}
-
-class Deadline extends Task {
-    protected String by;
-
-    public Deadline(String description, String by) {
-        super(description);
-        this.by = by;
-    }
-
-    @Override
-    public String toString() {
-        return "[D]" + super.toString() + " (by: " + by + ")";
-    }
-}
-
-class Event extends Task {
-    protected String from;
-    protected String to;
-
-    public Event(String description, String from, String to) {
-        super(description);
-        this.from = from;
-        this.to = to;
-    }
-
-    @Override
-    public String toString() {
-        return "[E]" + super.toString() + " (from: " + from + " to: " + to + ")";
-    }
-}
-
 public class TinMan {
     private static final int LINE_LENGTH = 60;
+    private static TaskList taskList = new TaskList();
 
     private static void printLine() {
         System.out.println("_".repeat(LINE_LENGTH));
@@ -175,14 +13,8 @@ public class TinMan {
         printLine();
     }
 
-    public static void main(String[] args) {
-        Scanner scanner = new Scanner(System.in);
-        String input;
-        Task[] tasks = new Task[100];
-        int taskCount = 0;
-
+    private static void showWelcome() {
         printLine();
-
         printSection("""
                         ,----,
                       ,/   .`|                              ____
@@ -201,49 +33,71 @@ public class TinMan {
                               ---`-'              '---'           `--`---'
                 """);
         printSection("Hello! I'm TinMan\n What can I do for you?");
+    }
 
-        while (true) {
-            input = scanner.nextLine();
+    private static void handleListCommand() {
+        printSection(taskList.listTasks());
+    }
 
-            if (input.equals("bye")) {
-                printSection("Bye. Hope to see you again soon!");
-                break;
-            } else if (input.equals("list")) {
-                StringBuilder taskList = new StringBuilder("Here are the tasks in your list:");
-                for (int i = 0; i < taskCount; i++) {
-                    taskList.append("\n ").append(i + 1).append(".").append(tasks[i]);
-                }
-                printSection(taskList.toString());
-            } else if (input.startsWith("mark ")) {
-                try {
-                    int taskIndex = Integer.parseInt(input.substring(5)) - 1;
-                    if (taskIndex >= 0 && taskIndex < taskCount) {
-                        tasks[taskIndex].markAsDone();
-                        printSection("Nice! I've marked this task as done:\n  " + tasks[taskIndex]);
-                    } else {
-                        printSection("Invalid task number!");
-                    }
-                } catch (NumberFormatException e) {
-                    printSection("Please provide a valid task number!");
-                }
-            } else if (input.startsWith("unmark ")) {
-                try {
-                    int taskIndex = Integer.parseInt(input.substring(7)) - 1;
-                    if (taskIndex >= 0 && taskIndex < taskCount) {
-                        tasks[taskIndex].markAsNotDone();
-                        printSection("OK, I've marked this task as not done yet:\n  " + tasks[taskIndex]);
-                    } else {
-                        printSection("Invalid task number!");
-                    }
-                } catch (NumberFormatException e) {
-                    printSection("Please provide a valid task number!");
-                }
-            } else {
-                tasks[taskCount++] = new Task(input);
-                printSection("added: " + input);
+    private static void handleMarkCommand(String input) {
+        int taskIndex = Parser.parseTaskNumber(input);
+        if (taskIndex != -1 && taskList.isValidIndex(taskIndex)) {
+            Task task = taskList.getTask(taskIndex);
+            task.markAsDone();
+            printSection("Nice! I've marked this task as done:\n  " + task);
+        } else {
+            printSection("Invalid task number!");
+        }
+    }
+
+    private static void handleUnmarkCommand(String input) {
+        int taskIndex = Parser.parseTaskNumber(input);
+        if (taskIndex != -1 && taskList.isValidIndex(taskIndex)) {
+            Task task = taskList.getTask(taskIndex);
+            task.markAsNotDone();
+            printSection("OK, I've marked this task as not done yet:\n  " + task);
+        } else {
+            printSection("Invalid task number!");
+        }
+    }
+
+    private static void handleAddTaskCommand(String input) {
+        Task task = Parser.parseTask(input);
+        if (task != null) {
+            taskList.addTask(task);
+            int taskCount = taskList.getTaskCount();
+            printSection("Got it. I've added this task:\n  " + task +
+                    "\nNow you have " + taskCount + " task" + (taskCount == 1 ? "" : "s") + " in the list.");
+        } else {
+            if (input.startsWith("deadline ")) {
+                printSection("Please use format: deadline <description> /by <time>");
+            } else if (input.startsWith("event ")) {
+                printSection("Please use format: event <description> /from <start> /to <end>");
             }
         }
+    }
 
-        scanner.close();
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        showWelcome();
+
+        while (true) {
+            String input = scanner.nextLine();
+            String command = Parser.getCommand(input);
+
+            if (command.equals("bye")) {
+                printSection("Bye. Hope to see you again soon!");
+                scanner.close();
+                return;
+            } else if (command.equals("list")) {
+                handleListCommand();
+            } else if (command.equals("mark")) {
+                handleMarkCommand(input);
+            } else if (command.equals("unmark")) {
+                handleUnmarkCommand(input);
+            } else {
+                handleAddTaskCommand(input);
+            }
+        }
     }
 }
