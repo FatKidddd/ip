@@ -1,18 +1,20 @@
 public enum CommandType {
-    TODO("todo"),
-    DEADLINE("deadline"),
-    EVENT("event"),
-    LIST("list"),
-    MARK("mark"),
-    UNMARK("unmark"),
-    DELETE("delete"),
-    BYE("bye"),
-    UNKNOWN("");
+    TODO("todo", "T"),
+    DEADLINE("deadline", "D"),
+    EVENT("event", "E"),
+    LIST("list", ""),
+    MARK("mark", ""),
+    UNMARK("unmark", ""),
+    DELETE("delete", ""),
+    BYE("bye", ""),
+    UNKNOWN("", "");
 
     private final String keyword;
+    private final String saveTypeCode;
 
-    CommandType(String keyword) {
+    CommandType(String keyword, String saveTypeCode) {
         this.keyword = keyword;
+        this.saveTypeCode = saveTypeCode;
     }
 
     public String getKeyword() {
@@ -26,5 +28,27 @@ public enum CommandType {
             }
         }
         return UNKNOWN;
+    }
+
+    public static CommandType fromSaveTypeCode(String typeCode) {
+        for (CommandType type : CommandType.values()) {
+            if (type.saveTypeCode.equals(typeCode)) {
+                return type;
+            }
+        }
+        return UNKNOWN;
+    }
+
+    public Task createFromSaveFormat(String[] parts, boolean isDone) throws TinManException {
+        switch (this) {
+        case TODO:
+            return Todo.fromSaveFormat(parts, isDone);
+        case DEADLINE:
+            return Deadline.fromSaveFormat(parts, isDone);
+        case EVENT:
+            return Event.fromSaveFormat(parts, isDone);
+        default:
+            throw new TinManException("Unknown task type in data file: " + this.saveTypeCode);
+        }
     }
 }
