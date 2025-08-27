@@ -1,14 +1,55 @@
-public class Deadline extends Task {
-    public String by;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 
-    public Deadline(String description, String by) {
+public class Deadline extends Task {
+    public LocalDate by;
+    public LocalDateTime byDateTime;
+    public String byString;
+
+    public Deadline(String description, String by) throws TinManException {
+        super(description);
+        try {
+            Object parsed = DateParser.parseFlexible(by);
+            if (parsed instanceof LocalDateTime) {
+                this.byDateTime = (LocalDateTime) parsed;
+                this.by = null;
+            } else if (parsed instanceof LocalDate) {
+                this.by = (LocalDate) parsed;
+                this.byDateTime = null;
+            }
+            this.byString = null;
+        } catch (TinManException e) {
+            this.by = null;
+            this.byDateTime = null;
+            this.byString = by;
+        }
+    }
+
+    public Deadline(String description, LocalDate by) {
         super(description);
         this.by = by;
+        this.byDateTime = null;
+        this.byString = null;
+    }
+
+    public Deadline(String description, LocalDateTime byDateTime) {
+        super(description);
+        this.by = null;
+        this.byDateTime = byDateTime;
+        this.byString = null;
     }
 
     @Override
     public String toString() {
-        return "[D]" + super.toString() + " (by: " + by + ")";
+        String dateDisplay;
+        if (byDateTime != null) {
+            dateDisplay = DateParser.formatDateTime(byDateTime);
+        } else if (by != null) {
+            dateDisplay = DateParser.formatDate(by);
+        } else {
+            dateDisplay = byString;
+        }
+        return "[D]" + super.toString() + " (by: " + dateDisplay + ")";
     }
 
     @Override
@@ -19,14 +60,39 @@ public class Deadline extends Task {
     @Override
     public String toSaveFormat() {
         String status = isDone ? "1" : "0";
-        return getTaskType() + " | " + status + " | " + getDescription() + " | " + by;
+        String dateToSave;
+        if (byDateTime != null) {
+            dateToSave = DateParser.dateTimeToSaveFormat(byDateTime);
+        } else if (by != null) {
+            dateToSave = DateParser.dateToSaveFormat(by);
+        } else {
+            dateToSave = byString;
+        }
+        return getTaskType() + " | " + status + " | " + getDescription() + " | " + dateToSave;
     }
 
     public static Deadline fromSaveFormat(String[] parts, boolean isDone) throws TinManException {
         if (parts.length < 4) {
             throw new TinManException("Invalid deadline format in data file");
         }
-        Deadline task = new Deadline(parts[2], parts[3]);
+        
+        Deadline task;
+        try {
+            // Try datetime first, then date
+            if (DateParser.isValidDateTimeFormat(parts[3])) {
+                LocalDateTime dateTime = DateParser.dateTimeFromSaveFormat(parts[3]);
+                task = new Deadline(parts[2], dateTime);
+            } else if (DateParser.isValidDateFormat(parts[3])) {
+                LocalDate date = DateParser.dateFromSaveFormat(parts[3]);
+                task = new Deadline(parts[2], date);
+            } else {
+                // Fall back to string
+                task = new Deadline(parts[2], parts[3]);
+            }
+        } catch (TinManException e) {
+            task = new Deadline(parts[2], parts[3]);
+        }
+        
         if (isDone) {
             task.markAsDone();
         }
