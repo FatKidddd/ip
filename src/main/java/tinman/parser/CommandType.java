@@ -1,3 +1,11 @@
+package tinman.parser;
+
+import tinman.task.Task;
+import tinman.task.Todo;
+import tinman.task.Deadline;
+import tinman.task.Event;
+import tinman.exception.TinManException;
+
 public enum CommandType {
     TODO("todo", "T"),
     DEADLINE("deadline", "D"),

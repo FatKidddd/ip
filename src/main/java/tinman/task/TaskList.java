@@ -1,3 +1,6 @@
+package tinman.task;
+
+import tinman.exception.TinManException;
 import java.util.ArrayList;
 
 public class TaskList {

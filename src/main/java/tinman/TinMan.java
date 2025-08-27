@@ -1,3 +1,13 @@
+package tinman;
+
+import tinman.storage.Storage;
+import tinman.task.TaskList;
+import tinman.task.Task;
+import tinman.ui.Ui;
+import tinman.parser.Parser;
+import tinman.parser.CommandType;
+import tinman.exception.TinManException;
+
 public class TinMan {
     private Storage storage;
     private TaskList tasks;

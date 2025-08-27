@@ -1,3 +1,7 @@
+package tinman.storage;
+
+import tinman.task.Task;
+import tinman.exception.TinManException;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;

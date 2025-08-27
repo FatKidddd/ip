@@ -1,3 +1,7 @@
+package tinman.task;
+
+import tinman.exception.TinManException;
+
 public class Todo extends Task {
     public Todo(String description) {
         super(description);
