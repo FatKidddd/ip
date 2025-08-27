@@ -38,4 +38,10 @@ public class TinManException extends Exception {
             super("OOPS!!! I'm sorry, but I don't know what that means :-(");
         }
     }
+
+    public static class InvalidDateFormatException extends TinManException {
+        public InvalidDateFormatException() {
+            super("OOPS!!! Invalid date format. Please use yyyy-mm-dd format (e.g., 2019-12-02).");
+        }
+    }
 }
