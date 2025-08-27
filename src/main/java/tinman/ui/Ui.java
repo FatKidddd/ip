@@ -1,3 +1,6 @@
+package tinman.ui;
+
+import tinman.task.Task;
 import java.util.Scanner;
 
 public class Ui {

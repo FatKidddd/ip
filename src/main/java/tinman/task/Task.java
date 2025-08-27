@@ -1,3 +1,9 @@
+package tinman.task;
+
+import tinman.storage.Saveable;
+import tinman.exception.TinManException;
+import tinman.util.DateParser;
+
 public class Task implements Saveable {
     protected String description;
     public boolean isDone;

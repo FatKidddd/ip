@@ -1,3 +1,5 @@
+package tinman.exception;
+
 public class TinManException extends Exception {
     public TinManException(String message) {
         super(message);

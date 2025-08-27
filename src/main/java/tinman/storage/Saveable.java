@@ -1,3 +1,9 @@
+package tinman.storage;
+
+import tinman.task.Task;
+import tinman.parser.CommandType;
+import tinman.exception.TinManException;
+
 public interface Saveable {
     String toSaveFormat();
     
