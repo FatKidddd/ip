@@ -2,21 +2,17 @@ import java.util.ArrayList;
 
 public class TaskList {
     private ArrayList<Task> tasks;
-    private Storage storage;
 
     public TaskList() {
         this.tasks = new ArrayList<>();
-        this.storage = new Storage("./data/duke.txt");
     }
 
-    public TaskList(Storage storage) {
-        this.tasks = new ArrayList<>();
-        this.storage = storage;
+    public TaskList(ArrayList<Task> tasks) {
+        this.tasks = tasks != null ? tasks : new ArrayList<>();
     }
 
     public void addTask(Task task) {
         tasks.add(task);
-        saveToStorage();
     }
 
     public Task getTask(int index) throws TinManException {
@@ -30,9 +26,7 @@ public class TaskList {
         if (index < 0 || index >= tasks.size()) {
             throw new TinManException.TaskNotFoundException();
         }
-        Task deletedTask = tasks.remove(index);
-        saveToStorage();
-        return deletedTask;
+        return tasks.remove(index);
     }
 
     public int getTaskCount() {
@@ -54,28 +48,7 @@ public class TaskList {
         return taskList.toString();
     }
 
-    public void loadFromStorage() throws TinManException {
-        this.tasks = storage.load();
-    }
-
-    private void saveToStorage() {
-        try {
-            storage.save(tasks);
-        } catch (TinManException e) {
-            // Ignore save errors to prevent disrupting normal operation
-            System.err.println("Warning: Failed to save tasks - " + e.getMessage());
-        }
-    }
-
-    public void markTaskDone(int index) throws TinManException {
-        Task task = getTask(index);
-        task.markAsDone();
-        saveToStorage();
-    }
-
-    public void markTaskNotDone(int index) throws TinManException {
-        Task task = getTask(index);
-        task.markAsNotDone();
-        saveToStorage();
+    public ArrayList<Task> getTasks() {
+        return tasks;
     }
 }
