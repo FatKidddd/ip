@@ -1,22 +1,29 @@
 public class TinMan {
-    private TaskList taskList;
+    private Storage storage;
+    private TaskList tasks;
     private Ui ui;
 
-    public TinMan() {
-        this.taskList = new TaskList();
-        this.ui = new Ui();
-        loadTasks();
+    public TinMan(String filePath) {
+        ui = new Ui();
+        storage = new Storage(filePath);
+        try {
+            tasks = new TaskList(storage.load());
+        } catch (TinManException e) {
+            ui.showError("Warning: " + e.getMessage());
+            tasks = new TaskList();
+        }
     }
 
     private void handleListCommand() {
-        ui.showTaskList(taskList.listTasks());
+        ui.showTaskList(tasks.listTasks());
     }
 
     private void handleMarkCommand(String input) {
         try {
             int taskIndex = Parser.parseTaskNumber(input);
-            taskList.markTaskDone(taskIndex);
-            Task task = taskList.getTask(taskIndex);
+            Task task = tasks.getTask(taskIndex);
+            task.markAsDone();
+            storage.save(tasks.getTasks());
             ui.showTaskMarked(task);
         } catch (TinManException e) {
             ui.showError(e.getMessage());
@@ -26,8 +33,9 @@ public class TinMan {
     private void handleUnmarkCommand(String input) {
         try {
             int taskIndex = Parser.parseTaskNumber(input);
-            taskList.markTaskNotDone(taskIndex);
-            Task task = taskList.getTask(taskIndex);
+            Task task = tasks.getTask(taskIndex);
+            task.markAsNotDone();
+            storage.save(tasks.getTasks());
             ui.showTaskUnmarked(task);
         } catch (TinManException e) {
             ui.showError(e.getMessage());
@@ -37,8 +45,9 @@ public class TinMan {
     private void handleDeleteCommand(String input) {
         try {
             int taskIndex = Parser.parseTaskNumber(input);
-            Task deletedTask = taskList.deleteTask(taskIndex);
-            ui.showTaskDeleted(deletedTask, taskList.getTaskCount());
+            Task deletedTask = tasks.deleteTask(taskIndex);
+            storage.save(tasks.getTasks());
+            ui.showTaskDeleted(deletedTask, tasks.getTaskCount());
         } catch (TinManException e) {
             ui.showError(e.getMessage());
         }
@@ -47,8 +56,9 @@ public class TinMan {
     private void handleAddTaskCommand(String input) {
         try {
             Task task = Parser.parseTask(input);
-            taskList.addTask(task);
-            ui.showTaskAdded(task, taskList.getTaskCount());
+            tasks.addTask(task);
+            storage.save(tasks.getTasks());
+            ui.showTaskAdded(task, tasks.getTaskCount());
         } catch (TinManException e) {
             ui.showError(e.getMessage());
         }
@@ -96,15 +106,7 @@ public class TinMan {
         ui.close();
     }
 
-    private void loadTasks() {
-        try {
-            taskList.loadFromStorage();
-        } catch (TinManException e) {
-            ui.showError("Warning: " + e.getMessage());
-        }
-    }
-
     public static void main(String[] args) {
-        new TinMan().run();
+        new TinMan("./data/duke.txt").run();
     }
 }
