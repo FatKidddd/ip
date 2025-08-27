@@ -1,0 +1,8 @@
+deadline return book /by 2019-12-02
+deadline submit assignment /by 2020-01-15 1800
+deadline project report /by tomorrow
+deadline meeting /by 2025-03-10
+event project meeting /from 2020-01-15 1400 /to 2020-01-15 1600
+event conference /from 2020-02-01 /to 2020-02-03
+list
+bye
