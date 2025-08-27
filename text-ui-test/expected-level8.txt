@@ -1,0 +1,55 @@
+____________________________________________________________
+        ,----,
+      ,/   .`|                              ____
+    ,`   .'  :                            ,'  , `.
+  ;    ;     / ,--,                    ,-+-,.' _ |
+.'___,/    ,',--.'|         ,---,   ,-+-. ;   , ||                  ,---,
+|    :     | |  |,      +-. /  | ,--.'|'   |  ;|              ,-+-. /  |
+;    |.';  ; `--'_     ,--.'|'   ||   |  ,', |  ':  ,--.--.    ,--.'|'   |
+`----'  |  | ,' ,'|   |   |  ,"' ||   | /  | |  || /       \  |   |  ,"' |
+    '   :  ; '  | |   |   | /  | |'   | :  | :  |,.--.  .-. | |   | /  | |
+    |   |  ' |  | :   |   | |  | |;   . |  ; |--'  \__\/: . . |   | |  | |
+    '   :  | '  : |__ |   | |  |/ |   : |  | ,     ," .--.; | |   | |  |/
+    ;   |.'  |  | '.'||   | |--'  |   : '  |/     /  /  ,.  | |   | |--'
+    '---'    ;  :    ;|   |/      ;   | |`-'     ;  :   .'   \|   |/
+             |  ,   / '---'       |   ;/         |  ,     .-./'---'
+              ---`-'              '---'           `--`---'
+
+____________________________________________________________
+Hello! I'm TinMan
+What can I do for you?
+____________________________________________________________
+Got it. I've added this task:
+  [D][ ] return book (by: Dec 02 2019)
+Now you have 1 task in the list.
+____________________________________________________________
+Got it. I've added this task:
+  [D][ ] submit assignment (by: Jan 15 2020, 6:00pm)
+Now you have 2 tasks in the list.
+____________________________________________________________
+Got it. I've added this task:
+  [D][ ] project report (by: tomorrow)
+Now you have 3 tasks in the list.
+____________________________________________________________
+Got it. I've added this task:
+  [D][ ] meeting (by: Mar 10 2025)
+Now you have 4 tasks in the list.
+____________________________________________________________
+Got it. I've added this task:
+  [E][ ] project meeting (from: Jan 15 2020, 2:00pm to: Jan 15 2020, 4:00pm)
+Now you have 5 tasks in the list.
+____________________________________________________________
+Got it. I've added this task:
+  [E][ ] conference (from: Feb 01 2020 to: Feb 03 2020)
+Now you have 6 tasks in the list.
+____________________________________________________________
+Here are the tasks in your list:
+ 1.[D][ ] return book (by: Dec 02 2019)
+ 2.[D][ ] submit assignment (by: Jan 15 2020, 6:00pm)
+ 3.[D][ ] project report (by: tomorrow)
+ 4.[D][ ] meeting (by: Mar 10 2025)
+ 5.[E][ ] project meeting (from: Jan 15 2020, 2:00pm to: Jan 15 2020, 4:00pm)
+ 6.[E][ ] conference (from: Feb 01 2020 to: Feb 03 2020)
+____________________________________________________________
+Bye. Hope to see you again soon!
+____________________________________________________________
