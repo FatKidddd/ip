@@ -5,6 +5,7 @@ public class TinMan {
     public TinMan() {
         this.taskList = new TaskList();
         this.ui = new Ui();
+        loadTasks();
     }
 
     private void handleListCommand() {
@@ -14,8 +15,8 @@ public class TinMan {
     private void handleMarkCommand(String input) {
         try {
             int taskIndex = Parser.parseTaskNumber(input);
+            taskList.markTaskDone(taskIndex);
             Task task = taskList.getTask(taskIndex);
-            task.markAsDone();
             ui.showTaskMarked(task);
         } catch (TinManException e) {
             ui.showError(e.getMessage());
@@ -25,8 +26,8 @@ public class TinMan {
     private void handleUnmarkCommand(String input) {
         try {
             int taskIndex = Parser.parseTaskNumber(input);
+            taskList.markTaskNotDone(taskIndex);
             Task task = taskList.getTask(taskIndex);
-            task.markAsNotDone();
             ui.showTaskUnmarked(task);
         } catch (TinManException e) {
             ui.showError(e.getMessage());
@@ -93,6 +94,14 @@ public class TinMan {
         }
 
         ui.close();
+    }
+
+    private void loadTasks() {
+        try {
+            taskList.loadFromStorage();
+        } catch (TinManException e) {
+            ui.showError("Warning: " + e.getMessage());
+        }
     }
 
     public static void main(String[] args) {
