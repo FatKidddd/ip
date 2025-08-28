@@ -8,11 +8,23 @@ import tinman.task.Task;
 import tinman.task.TaskList;
 import tinman.ui.Ui;
 
+/**
+ * Represents the TinMan chat bot application.
+ * TinMan is a personal task management assistant that helps users manage their tasks,
+ * including todos, deadlines, and events.
+ */
 public class TinMan {
     private Storage storage;
     private TaskList tasks;
     private Ui ui;
 
+    /**
+     * Creates a TinMan instance with the specified file path for data storage.
+     * Initializes the UI, storage, and loads existing tasks from the file.
+     * If loading fails, starts with an empty task list.
+     *
+     * @param filePath Path to the file where tasks are stored.
+     */
     public TinMan(String filePath) {
         ui = new Ui();
         storage = new Storage(filePath);
@@ -99,6 +111,11 @@ public class TinMan {
         }
     }
 
+    /**
+     * Runs the main application loop.
+     * Shows welcome message, processes user commands until bye command is received,
+     * then closes the UI resources.
+     */
     public void run() {
         ui.showWelcome();
 
@@ -116,6 +133,11 @@ public class TinMan {
         ui.close();
     }
 
+    /**
+     * Starts the TinMan application.
+     *
+     * @param args Command line arguments.
+     */
     public static void main(String[] args) {
         new TinMan("./data/duke.txt").run();
     }

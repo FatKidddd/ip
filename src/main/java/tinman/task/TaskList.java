@@ -4,6 +4,10 @@ import java.util.ArrayList;
 
 import tinman.exception.TinManException;
 
+/**
+ * Represents a collection of tasks that can be managed.
+ * Provides operations for adding, deleting, retrieving, and searching tasks.
+ */
 public class TaskList {
     private ArrayList<Task> tasks;
 
@@ -11,14 +15,31 @@ public class TaskList {
         this.tasks = new ArrayList<>();
     }
 
+    /**
+     * Constructs a TaskList with the given list of tasks.
+     *
+     * @param tasks List of tasks to initialize with.
+     */
     public TaskList(ArrayList<Task> tasks) {
         this.tasks = tasks != null ? tasks : new ArrayList<>();
     }
 
+    /**
+     * Adds a task to the task list.
+     *
+     * @param task Task to be added.
+     */
     public void addTask(Task task) {
         tasks.add(task);
     }
 
+    /**
+     * Retrieves a task at the specified index.
+     *
+     * @param index Zero-based index of the task.
+     * @return Task at the specified index.
+     * @throws TinManException If the index is invalid.
+     */
     public Task getTask(int index) throws TinManException {
         if (index < 0 || index >= tasks.size()) {
             throw new TinManException.TaskNotFoundException();
@@ -26,6 +47,13 @@ public class TaskList {
         return tasks.get(index);
     }
 
+    /**
+     * Deletes and returns a task at the specified index.
+     *
+     * @param index Zero-based index of the task to delete.
+     * @return The deleted task.
+     * @throws TinManException If the index is invalid.
+     */
     public Task deleteTask(int index) throws TinManException {
         if (index < 0 || index >= tasks.size()) {
             throw new TinManException.TaskNotFoundException();

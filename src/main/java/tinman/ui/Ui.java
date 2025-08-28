@@ -4,6 +4,10 @@ import java.util.Scanner;
 
 import tinman.task.Task;
 
+/**
+ * Handles all user interface operations.
+ * Manages user input and output display for the TinMan application.
+ */
 public class Ui {
     private static final int LINE_LENGTH = 60;
     private Scanner scanner;
@@ -21,6 +25,9 @@ public class Ui {
         showLine();
     }
 
+    /**
+     * Displays the welcome message with ASCII art logo and greeting.
+     */
     public void showWelcome() {
         showLine();
         showMessage("""
