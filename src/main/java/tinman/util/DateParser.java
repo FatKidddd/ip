@@ -6,6 +6,10 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 
+/**
+ * Utility class for parsing and formatting dates and date-times.
+ * Provides methods to handle both date-only and date-time formats with flexible parsing.
+ */
 public class DateParser {
     private static final DateTimeFormatter INPUT_FORMAT = DateTimeFormatter.ofPattern("yyyy-MM-dd");
     private static final DateTimeFormatter OUTPUT_FORMAT = DateTimeFormatter.ofPattern("MMM dd yyyy");
@@ -73,7 +77,14 @@ public class DateParser {
         return parseDateTime(dateTimeString);
     }
     
-    // Utility method to try parsing either date or datetime
+    /**
+     * Attempts to parse the input string as either a date or date-time.
+     * Tries date-time format first, then falls back to date format.
+     *
+     * @param input String to parse in format "yyyy-MM-dd" or "yyyy-MM-dd HHmm".
+     * @return LocalDate if input is date format, LocalDateTime if input is date-time format.
+     * @throws TinManException If input does not match any valid format.
+     */
     public static Object parseFlexible(String input) throws TinManException {
         // Try datetime first (more specific)
         if (isValidDateTimeFormat(input)) {
