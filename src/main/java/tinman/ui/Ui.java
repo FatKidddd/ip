@@ -1,6 +1,7 @@
 package tinman.ui;
 
 import tinman.task.Task;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Ui {
@@ -70,6 +71,19 @@ public class Ui {
 
     public void showTaskList(String taskList) {
         showMessage(taskList);
+    }
+
+    public void showFindResults(ArrayList<Task> matchingTasks) {
+        if (matchingTasks.isEmpty()) {
+            showMessage("Here are the matching tasks in your list:\n (no matching tasks found)");
+            return;
+        }
+        
+        StringBuilder result = new StringBuilder("Here are the matching tasks in your list:");
+        for (int i = 0; i < matchingTasks.size(); i++) {
+            result.append("\n ").append(i + 1).append(".").append(matchingTasks.get(i));
+        }
+        showMessage(result.toString());
     }
 
     public String readCommand() {

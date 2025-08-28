@@ -7,6 +7,7 @@ import tinman.ui.Ui;
 import tinman.parser.Parser;
 import tinman.parser.CommandType;
 import tinman.exception.TinManException;
+import java.util.ArrayList;
 
 public class TinMan {
     private Storage storage;
@@ -74,6 +75,17 @@ public class TinMan {
         }
     }
 
+    private void handleFindCommand(String input) {
+        String keyword = input.substring(4).trim(); // Remove "find" and get the keyword
+        if (keyword.isEmpty()) {
+            ui.showError("Please provide a keyword to search for.");
+            return;
+        }
+        
+        ArrayList<Task> matchingTasks = tasks.findTasks(keyword);
+        ui.showFindResults(matchingTasks);
+    }
+
     private void processCommand(String input) {
         CommandType commandType = CommandType.fromString(Parser.getCommand(input));
 
@@ -92,6 +104,9 @@ public class TinMan {
             break;
         case DELETE:
             handleDeleteCommand(input);
+            break;
+        case FIND:
+            handleFindCommand(input);
             break;
         default:
             handleAddTaskCommand(input);
