@@ -1,12 +1,12 @@
 package tinman.task;
 
-import tinman.storage.Saveable;
 import tinman.exception.TinManException;
+import tinman.storage.Saveable;
 import tinman.util.DateParser;
 
 public class Task implements Saveable {
     protected String description;
-    public boolean isDone;
+    protected boolean isDone;
 
     public Task(String description) {
         this.description = description;
@@ -27,6 +27,10 @@ public class Task implements Saveable {
 
     public String getDescription() {
         return description;
+    }
+
+    public boolean isDone() {
+        return isDone;
     }
 
     @Override

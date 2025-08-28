@@ -1,10 +1,11 @@
 package tinman.util;
 
-import tinman.exception.TinManException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
+
+import tinman.exception.TinManException;
 
 public class DateParser {
     private static final DateTimeFormatter INPUT_FORMAT = DateTimeFormatter.ofPattern("yyyy-MM-dd");

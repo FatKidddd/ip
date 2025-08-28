@@ -1,17 +1,18 @@
 package tinman.task;
 
-import tinman.exception.TinManException;
-import tinman.util.DateParser;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
+import tinman.exception.TinManException;
+import tinman.util.DateParser;
+
 public class Event extends Task {
-    public String from;
-    public String to;
-    public LocalDate fromDate;
-    public LocalDate toDate;
-    public LocalDateTime fromDateTime;
-    public LocalDateTime toDateTime;
+    private String from;
+    private String to;
+    private LocalDate fromDate;
+    private LocalDate toDate;
+    private LocalDateTime fromDateTime;
+    private LocalDateTime toDateTime;
 
     public Event(String description, String from, String to) {
         super(description);
