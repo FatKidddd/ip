@@ -1,7 +1,5 @@
 package tinman.storage;
 
-import tinman.task.Task;
-import tinman.exception.TinManException;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -10,6 +8,9 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
+
+import tinman.exception.TinManException;
+import tinman.task.Task;
 
 public class Storage {
     private final String filePath;

@@ -1,7 +1,8 @@
 package tinman.ui;
 
-import tinman.task.Task;
 import java.util.Scanner;
+
+import tinman.task.Task;
 
 public class Ui {
     private static final int LINE_LENGTH = 60;

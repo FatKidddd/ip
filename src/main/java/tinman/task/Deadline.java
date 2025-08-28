@@ -1,14 +1,15 @@
 package tinman.task;
 
-import tinman.exception.TinManException;
-import tinman.util.DateParser;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
+import tinman.exception.TinManException;
+import tinman.util.DateParser;
+
 public class Deadline extends Task {
-    public LocalDate by;
-    public LocalDateTime byDateTime;
-    public String byString;
+    private LocalDate by;
+    private LocalDateTime byDateTime;
+    private String byString;
 
     public Deadline(String description, String by) throws TinManException {
         super(description);
