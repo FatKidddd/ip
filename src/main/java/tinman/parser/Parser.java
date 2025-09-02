@@ -6,6 +6,10 @@ import tinman.task.Event;
 import tinman.task.Task;
 import tinman.task.Todo;
 
+/**
+ * Handles parsing of user input into commands and tasks.
+ * Provides methods to parse various task types and command inputs.
+ */
 public class Parser {
     private static void validateDescription(String description, String taskType) throws TinManException {
         if (description.isEmpty()) {
@@ -62,9 +66,16 @@ public class Parser {
         return new Event(description, from, to);
     }
 
+    /**
+     * Parses user input into a Task object.
+     *
+     * @param input The user input string containing task information.
+     * @return A Task object representing the parsed task.
+     * @throws TinManException If the input format is invalid or contains errors.
+     */
     public static Task parseTask(String input) throws TinManException {
         String trimmedInput = input.trim();
-        CommandType commandType = CommandType.fromString(getCommand(trimmedInput));
+        CommandType commandType = CommandType.parseString(getCommand(trimmedInput));
 
         switch (commandType) {
         case TODO:
@@ -93,10 +104,23 @@ public class Parser {
         }
     }
 
+    /**
+     * Extracts the command keyword from user input.
+     *
+     * @param input The user input string.
+     * @return The first word of the input as the command keyword.
+     */
     public static String getCommand(String input) {
         return input.trim().split(" ", 2)[0];
     }
 
+    /**
+     * Parses the task number from user input for commands that require task indices.
+     *
+     * @param input The user input string containing the task number.
+     * @return Zero-based index of the task.
+     * @throws TinManException If the task number is invalid or missing.
+     */
     public static int parseTaskNumber(String input) throws TinManException {
         try {
             String[] parts = input.split(" ", 2);

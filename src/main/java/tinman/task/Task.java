@@ -50,7 +50,7 @@ public class Task implements Saveable {
         return description;
     }
 
-    public boolean isDone() {
+    public boolean getIsDone() {
         return isDone;
     }
 

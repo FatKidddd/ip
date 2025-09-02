@@ -30,7 +30,7 @@ public enum CommandType {
         return keyword;
     }
 
-    public static CommandType fromString(String command) {
+    public static CommandType parseString(String command) {
         for (CommandType type : CommandType.values()) {
             if (type.keyword.equals(command.toLowerCase().trim())) {
                 return type;
@@ -39,7 +39,7 @@ public enum CommandType {
         return UNKNOWN;
     }
 
-    public static CommandType fromSaveTypeCode(String typeCode) {
+    public static CommandType parseSaveTypeCode(String typeCode) {
         for (CommandType type : CommandType.values()) {
             if (type.saveTypeCode.equals(typeCode)) {
                 return type;

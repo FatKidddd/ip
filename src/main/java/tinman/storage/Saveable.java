@@ -16,7 +16,7 @@ public interface Saveable {
         String typeCode = parts[0];
         boolean isDone = "1".equals(parts[1]);
         
-        CommandType commandType = CommandType.fromSaveTypeCode(typeCode);
+        CommandType commandType = CommandType.parseSaveTypeCode(typeCode);
         if (commandType == CommandType.UNKNOWN) {
             throw new TinManException("Unknown task type in data file: " + typeCode);
         }

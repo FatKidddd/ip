@@ -100,7 +100,7 @@ public class TinMan {
     }
 
     private void processCommand(String input) {
-        CommandType commandType = CommandType.fromString(Parser.getCommand(input));
+        CommandType commandType = CommandType.parseString(Parser.getCommand(input));
 
         switch (commandType) {
         case BYE:
@@ -137,7 +137,7 @@ public class TinMan {
 
         while (true) {
             String input = ui.readCommand();
-            CommandType commandType = CommandType.fromString(Parser.getCommand(input));
+            CommandType commandType = CommandType.parseString(Parser.getCommand(input));
 
             processCommand(input);
 
