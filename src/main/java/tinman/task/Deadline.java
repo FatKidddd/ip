@@ -6,11 +6,21 @@ import java.time.LocalDateTime;
 import tinman.exception.TinManException;
 import tinman.util.DateParser;
 
+/**
+ * Represents a deadline task with a specific due date/time.
+ */
 public class Deadline extends Task {
     private LocalDate by;
     private LocalDateTime byDateTime;
     private String byString;
 
+    /**
+     * Constructs a Deadline with the given description and due date string.
+     *
+     * @param description Description of the deadline task.
+     * @param by Due date/time as a string.
+     * @throws TinManException If date parsing fails.
+     */
     public Deadline(String description, String by) throws TinManException {
         super(description);
         try {
@@ -30,6 +40,12 @@ public class Deadline extends Task {
         }
     }
 
+    /**
+     * Constructs a Deadline with the given description and due date.
+     *
+     * @param description Description of the deadline task.
+     * @param by Due date.
+     */
     public Deadline(String description, LocalDate by) {
         super(description);
         this.by = by;
@@ -37,6 +53,12 @@ public class Deadline extends Task {
         this.byString = null;
     }
 
+    /**
+     * Constructs a Deadline with the given description and due date/time.
+     *
+     * @param description Description of the deadline task.
+     * @param byDateTime Due date and time.
+     */
     public Deadline(String description, LocalDateTime byDateTime) {
         super(description);
         this.by = null;
@@ -76,6 +98,14 @@ public class Deadline extends Task {
         return getTaskType() + " | " + status + " | " + getDescription() + " | " + dateToSave;
     }
 
+    /**
+     * Creates a Deadline from save format data.
+     *
+     * @param parts Array of strings containing deadline data.
+     * @param isDone Whether the deadline is completed.
+     * @return Deadline object created from save format.
+     * @throws TinManException If the save format is invalid.
+     */
     public static Deadline fromSaveFormat(String[] parts, boolean isDone) throws TinManException {
         if (parts.length < 4) {
             throw new TinManException("Invalid deadline format in data file");

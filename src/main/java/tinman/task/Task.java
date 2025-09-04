@@ -2,7 +2,6 @@ package tinman.task;
 
 import tinman.exception.TinManException;
 import tinman.storage.Saveable;
-import tinman.util.DateParser;
 
 /**
  * Represents a task with a description and completion status.
@@ -69,6 +68,14 @@ public class Task implements Saveable {
         return "T";
     }
 
+    /**
+     * Creates a Task from save format data.
+     *
+     * @param parts Array of strings containing task data.
+     * @param isDone Whether the task is completed.
+     * @return Task object created from save format.
+     * @throws TinManException If the save format is invalid.
+     */
     public static Task fromSaveFormat(String[] parts, boolean isDone) throws TinManException {
         if (parts.length < 3) {
             throw new TinManException("Invalid task format in data file");

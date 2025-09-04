@@ -1,12 +1,22 @@
 package tinman.storage;
 
-import tinman.task.Task;
-import tinman.parser.CommandType;
 import tinman.exception.TinManException;
+import tinman.parser.CommandType;
+import tinman.task.Task;
 
+/**
+ * Interface for objects that can be saved to and loaded from a file format.
+ */
 public interface Saveable {
     String toSaveFormat();
     
+    /**
+     * Creates a Task from a save format line.
+     *
+     * @param line The line containing task data in save format.
+     * @return Task object created from the save format.
+     * @throws TinManException If the save format is invalid.
+     */
     static Task fromSaveFormat(String line) throws TinManException {
         String[] parts = line.split(" \\| ");
         if (parts.length < 3) {
@@ -24,3 +34,4 @@ public interface Saveable {
         return commandType.createFromSaveFormat(parts, isDone);
     }
 }
+

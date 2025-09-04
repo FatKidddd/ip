@@ -19,6 +19,13 @@ public class DateParser {
     private static final DateTimeFormatter DATETIME_INPUT_FORMAT = DateTimeFormatter.ofPattern("yyyy-MM-dd HHmm");
     private static final DateTimeFormatter DATETIME_OUTPUT_FORMAT = DateTimeFormatter.ofPattern("MMM dd yyyy, h:mma");
     
+    /**
+     * Parses a date string into a LocalDate object.
+     *
+     * @param dateString The date string in yyyy-MM-dd format.
+     * @return LocalDate object parsed from the string.
+     * @throws TinManException If the date format is invalid.
+     */
     public static LocalDate parseDate(String dateString) throws TinManException {
         try {
             return LocalDate.parse(dateString, INPUT_FORMAT);
@@ -27,10 +34,22 @@ public class DateParser {
         }
     }
     
+    /**
+     * Formats a LocalDate object into a readable string.
+     *
+     * @param date The LocalDate to format.
+     * @return Formatted date string.
+     */
     public static String formatDate(LocalDate date) {
         return date.format(OUTPUT_FORMAT);
     }
     
+    /**
+     * Checks if a string matches the valid date format.
+     *
+     * @param dateString The string to validate.
+     * @return True if the format is valid, false otherwise.
+     */
     public static boolean isValidDateFormat(String dateString) {
         try {
             LocalDate.parse(dateString, INPUT_FORMAT);
@@ -49,6 +68,13 @@ public class DateParser {
     }
     
     // DateTime methods
+    /**
+     * Parses a date-time string into a LocalDateTime object.
+     *
+     * @param dateTimeString The date-time string in yyyy-MM-dd HHmm format.
+     * @return LocalDateTime object parsed from the string.
+     * @throws TinManException If the date-time format is invalid.
+     */
     public static LocalDateTime parseDateTime(String dateTimeString) throws TinManException {
         try {
             return LocalDateTime.parse(dateTimeString, DATETIME_INPUT_FORMAT);
@@ -61,6 +87,12 @@ public class DateParser {
         return dateTime.format(DATETIME_OUTPUT_FORMAT);
     }
     
+    /**
+     * Checks if a string is in valid date-time format.
+     *
+     * @param dateTimeString The string to validate.
+     * @return True if the format is valid, false otherwise.
+     */
     public static boolean isValidDateTimeFormat(String dateTimeString) {
         try {
             LocalDateTime.parse(dateTimeString, DATETIME_INPUT_FORMAT);

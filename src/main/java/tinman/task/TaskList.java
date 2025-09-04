@@ -69,6 +69,11 @@ public class TaskList {
         return index >= 0 && index < tasks.size();
     }
 
+    /**
+     * Returns a formatted string listing all tasks.
+     *
+     * @return String representation of all tasks in the list.
+     */
     public String listTasks() {
         if (tasks.isEmpty()) {
             return "Here are the tasks in your list:\n (empty)";
@@ -84,6 +89,12 @@ public class TaskList {
         return tasks;
     }
 
+    /**
+     * Finds tasks that contain the given keyword in their description.
+     *
+     * @param keyword The keyword to search for in task descriptions.
+     * @return List of tasks that match the keyword.
+     */
     public ArrayList<Task> findTasks(String keyword) {
         ArrayList<Task> matchingTasks = new ArrayList<>();
         String lowerKeyword = keyword.toLowerCase().trim();

@@ -96,3 +96,4 @@ public class Storage {
         return Saveable.fromSaveFormat(line);
     }
 }
+

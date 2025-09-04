@@ -6,6 +6,9 @@ import java.time.LocalDateTime;
 import tinman.exception.TinManException;
 import tinman.util.DateParser;
 
+/**
+ * Represents an event task with a start and end time/date.
+ */
 public class Event extends Task {
     private String from;
     private String to;
@@ -14,6 +17,13 @@ public class Event extends Task {
     private LocalDateTime fromDateTime;
     private LocalDateTime toDateTime;
 
+    /**
+     * Constructs an Event with the given description and time period.
+     *
+     * @param description Description of the event.
+     * @param from Start time/date of the event.
+     * @param to End time/date of the event.
+     */
     public Event(String description, String from, String to) {
         super(description);
         try {
@@ -102,6 +112,14 @@ public class Event extends Task {
         return getTaskType() + " | " + status + " | " + getDescription() + " | " + fromToSave + " | " + toToSave;
     }
 
+    /**
+     * Creates an Event from save format data.
+     *
+     * @param parts Array of strings containing event data.
+     * @param isDone Whether the event is completed.
+     * @return Event object created from save format.
+     * @throws TinManException If the save format is invalid.
+     */
     public static Event fromSaveFormat(String[] parts, boolean isDone) throws TinManException {
         if (parts.length < 5) {
             throw new TinManException("Invalid event format in data file");
