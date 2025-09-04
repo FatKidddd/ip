@@ -14,11 +14,11 @@ import tinman.exception.TinManException;
 public class DateParser {
     private static final DateTimeFormatter INPUT_FORMAT = DateTimeFormatter.ofPattern("yyyy-MM-dd");
     private static final DateTimeFormatter OUTPUT_FORMAT = DateTimeFormatter.ofPattern("MMM dd yyyy");
-    
+
     // DateTime formats
     private static final DateTimeFormatter DATETIME_INPUT_FORMAT = DateTimeFormatter.ofPattern("yyyy-MM-dd HHmm");
     private static final DateTimeFormatter DATETIME_OUTPUT_FORMAT = DateTimeFormatter.ofPattern("MMM dd yyyy, h:mma");
-    
+
     /**
      * Parses a date string into a LocalDate object.
      *
@@ -33,7 +33,7 @@ public class DateParser {
             throw new TinManException.InvalidDateFormatException();
         }
     }
-    
+
     /**
      * Formats a LocalDate object into a readable string.
      *
@@ -43,7 +43,7 @@ public class DateParser {
     public static String formatDate(LocalDate date) {
         return date.format(OUTPUT_FORMAT);
     }
-    
+
     /**
      * Checks if a string matches the valid date format.
      *
@@ -58,15 +58,15 @@ public class DateParser {
             return false;
         }
     }
-    
+
     public static String dateToSaveFormat(LocalDate date) {
         return date.format(INPUT_FORMAT);
     }
-    
+
     public static LocalDate dateFromSaveFormat(String dateString) throws TinManException {
         return parseDate(dateString);
     }
-    
+
     // DateTime methods
     /**
      * Parses a date-time string into a LocalDateTime object.
@@ -82,11 +82,11 @@ public class DateParser {
             throw new TinManException.InvalidDateFormatException();
         }
     }
-    
+
     public static String formatDateTime(LocalDateTime dateTime) {
         return dateTime.format(DATETIME_OUTPUT_FORMAT);
     }
-    
+
     /**
      * Checks if a string is in valid date-time format.
      *
@@ -101,15 +101,15 @@ public class DateParser {
             return false;
         }
     }
-    
+
     public static String dateTimeToSaveFormat(LocalDateTime dateTime) {
         return dateTime.format(DATETIME_INPUT_FORMAT);
     }
-    
+
     public static LocalDateTime dateTimeFromSaveFormat(String dateTimeString) throws TinManException {
         return parseDateTime(dateTimeString);
     }
-    
+
     /**
      * Attempts to parse the input string as either a date or date-time.
      * Tries date-time format first, then falls back to date format.

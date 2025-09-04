@@ -94,7 +94,7 @@ public class TinMan {
             ui.showError("Please provide a keyword to search for.");
             return;
         }
-        
+
         ArrayList<Task> matchingTasks = tasks.findTasks(keyword);
         ui.showFindResults(matchingTasks);
     }

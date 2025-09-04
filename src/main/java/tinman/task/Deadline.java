@@ -110,7 +110,7 @@ public class Deadline extends Task {
         if (parts.length < 4) {
             throw new TinManException("Invalid deadline format in data file");
         }
-        
+
         Deadline task;
         try {
             // Try datetime first, then date
@@ -127,7 +127,7 @@ public class Deadline extends Task {
         } catch (TinManException e) {
             task = new Deadline(parts[2], parts[3]);
         }
-        
+
         if (isDone) {
             task.markAsDone();
         }

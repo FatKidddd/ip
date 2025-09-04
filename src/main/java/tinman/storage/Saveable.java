@@ -9,7 +9,7 @@ import tinman.task.Task;
  */
 public interface Saveable {
     String toSaveFormat();
-    
+
     /**
      * Creates a Task from a save format line.
      *
@@ -22,15 +22,15 @@ public interface Saveable {
         if (parts.length < 3) {
             throw new TinManException("Invalid task format in data file");
         }
-        
+
         String typeCode = parts[0];
         boolean isDone = "1".equals(parts[1]);
-        
+
         CommandType commandType = CommandType.parseSaveTypeCode(typeCode);
         if (commandType == CommandType.UNKNOWN) {
             throw new TinManException("Unknown task type in data file: " + typeCode);
         }
-        
+
         return commandType.createFromSaveFormat(parts, isDone);
     }
 }

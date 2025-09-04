@@ -18,7 +18,7 @@ import tinman.task.Task;
  */
 public class Storage {
     private final String filePath;
-    
+
     /**
      * Constructs a Storage instance with the specified file path.
      *
@@ -27,7 +27,7 @@ public class Storage {
     public Storage(String filePath) {
         this.filePath = filePath;
     }
-    
+
     /**
      * Saves the list of tasks to the file.
      * Creates the parent directory if it does not exist.
@@ -38,7 +38,7 @@ public class Storage {
     public void save(ArrayList<Task> tasks) throws TinManException {
         try {
             ensureDirectoryExists();
-            
+
             FileWriter writer = new FileWriter(filePath);
             for (Task task : tasks) {
                 writer.write(taskToString(task) + System.lineSeparator());
@@ -48,7 +48,7 @@ public class Storage {
             throw new TinManException("Error saving tasks to file: " + e.getMessage());
         }
     }
-    
+
     /**
      * Loads tasks from the file.
      * Returns an empty list if the file does not exist.
@@ -58,12 +58,12 @@ public class Storage {
      */
     public ArrayList<Task> load() throws TinManException {
         ArrayList<Task> tasks = new ArrayList<>();
-        
+
         File file = new File(filePath);
         if (!file.exists()) {
             return tasks;
         }
-        
+
         try {
             List<String> lines = Files.readAllLines(Paths.get(filePath));
             for (String line : lines) {
@@ -76,10 +76,10 @@ public class Storage {
         } catch (Exception e) {
             throw new TinManException("Data file is corrupted: " + e.getMessage());
         }
-        
+
         return tasks;
     }
-    
+
     private void ensureDirectoryExists() throws IOException {
         Path path = Paths.get(filePath);
         Path directory = path.getParent();
@@ -87,11 +87,11 @@ public class Storage {
             Files.createDirectories(directory);
         }
     }
-    
+
     private String taskToString(Task task) {
         return task.toSaveFormat();
     }
-    
+
     private Task stringToTask(String line) throws TinManException {
         return Saveable.fromSaveFormat(line);
     }

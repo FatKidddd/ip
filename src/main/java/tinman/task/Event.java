@@ -41,7 +41,7 @@ public class Event extends Task {
             this.fromDate = null;
             this.fromDateTime = null;
         }
-        
+
         try {
             Object parsedTo = DateParser.parseFlexible(to);
             if (parsedTo instanceof LocalDateTime) {
@@ -69,7 +69,7 @@ public class Event extends Task {
         } else {
             fromDisplay = from;
         }
-        
+
         String toDisplay;
         if (toDateTime != null) {
             toDisplay = DateParser.formatDateTime(toDateTime);
@@ -78,7 +78,7 @@ public class Event extends Task {
         } else {
             toDisplay = to;
         }
-        
+
         return "[E]" + super.toString() + " (from: " + fromDisplay + " to: " + toDisplay + ")";
     }
 
@@ -90,7 +90,7 @@ public class Event extends Task {
     @Override
     public String toSaveFormat() {
         String status = isDone ? "1" : "0";
-        
+
         String fromToSave;
         if (fromDateTime != null) {
             fromToSave = DateParser.dateTimeToSaveFormat(fromDateTime);
@@ -99,7 +99,7 @@ public class Event extends Task {
         } else {
             fromToSave = from;
         }
-        
+
         String toToSave;
         if (toDateTime != null) {
             toToSave = DateParser.dateTimeToSaveFormat(toDateTime);
@@ -108,7 +108,7 @@ public class Event extends Task {
         } else {
             toToSave = to;
         }
-        
+
         return getTaskType() + " | " + status + " | " + getDescription() + " | " + fromToSave + " | " + toToSave;
     }
 
@@ -124,10 +124,10 @@ public class Event extends Task {
         if (parts.length < 5) {
             throw new TinManException("Invalid event format in data file");
         }
-        
+
         // The Event constructor will handle parsing the date/time strings automatically
         Event task = new Event(parts[2], parts[3], parts[4]);
-        
+
         if (isDone) {
             task.markAsDone();
         }

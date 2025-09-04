@@ -1,12 +1,10 @@
 package tinman.task;
 
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import java.util.ArrayList;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import tinman.exception.TinManException;
 
@@ -93,11 +91,11 @@ public class TaskListTest {
         taskList.addTask(todo2);
 
         // Try to delete task at index 2 when only 2 tasks exist
-        TinManException.TaskNotFoundException exception = 
+        TinManException.TaskNotFoundException exception =
             assertThrows(TinManException.TaskNotFoundException.class, () -> {
                 taskList.deleteTask(2);
             });
-        
+
         // Verify task list is unchanged
         assertEquals(2, taskList.getTaskCount());
     }
@@ -174,7 +172,7 @@ public class TaskListTest {
         // Setup: Add different types of tasks
         Task deadline = new Deadline("Deadline task", "2023-12-25");
         Task event = new Event("Event task", "today", "tomorrow");
-        
+
         taskList.addTask(todo1);
         taskList.addTask(deadline);
         taskList.addTask(event);
@@ -190,3 +188,4 @@ public class TaskListTest {
         assertEquals(event, taskList.getTask(1));
     }
 }
+
