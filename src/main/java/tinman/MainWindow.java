@@ -50,7 +50,7 @@ public class MainWindow extends AnchorPane {
         if (userText.trim().isEmpty()) {
             return;
         }
-        
+
         String tinmanText = getResponse(userText);
         dialogContainer.getChildren().addAll(
                 DialogBox.getUserDialog(userText, userImage),

@@ -69,7 +69,8 @@ public class DialogBox extends HBox {
     public static DialogBox getTinManDialog(String text, Image img) {
         var db = new DialogBox(text, img);
         db.flip();
-        db.dialog.setStyle("-fx-background-color: #f3e5f5; -fx-background-radius: 15; -fx-padding: 12; -fx-font-size: 14px;");
+        db.dialog.setStyle("-fx-background-color: #f3e5f5; -fx-background-radius: 15; "
+                + "-fx-padding: 12; -fx-font-size: 14px;");
         return db;
     }
 }
