@@ -26,7 +26,10 @@ public class Storage {
      * @param filePath Path to the file where tasks will be stored.
      */
     public Storage(String filePath) {
+        assert filePath != null : "Precondition: file path cannot be null";
+        assert !filePath.trim().isEmpty() : "Precondition: file path cannot be empty";
         this.filePath = filePath;
+        assert this.filePath != null : "Class invariant: filePath should never be null after construction";
     }
 
     /**
@@ -37,11 +40,13 @@ public class Storage {
      * @throws TinManException If there is an error writing to the file.
      */
     public void save(ArrayList<Task> tasks) throws TinManException {
+        assert tasks != null : "Precondition: task list cannot be null";
         try {
             ensureDirectoryExists();
 
             FileWriter writer = new FileWriter(filePath);
             for (Task task : tasks) {
+                assert task != null : "Internal invariant: task in list should not be null";
                 writer.write(taskToString(task) + System.lineSeparator());
             }
             writer.close();
@@ -58,16 +63,20 @@ public class Storage {
      * @throws TinManException If there is an error reading from the file or if the data is corrupted.
      */
     public ArrayList<Task> load() throws TinManException {
+        ArrayList<Task> tasks = new ArrayList<>();
+
         File file = new File(filePath);
         if (!file.exists()) {
-            return new ArrayList<>();
+            assert tasks.isEmpty() : "Postcondition: should return empty list when file doesn't exist";
+            return tasks;
         }
 
         try {
             List<String> lines = Files.readAllLines(Paths.get(filePath));
-            return lines.stream()
+            tasks = lines.stream()
                     .filter(line -> !line.trim().isEmpty())
                     .map(this::parseTaskFromLine)
+                    .peek(task -> assert task != null : "Internal invariant: parsed task should not be null")
                     .collect(Collectors.toCollection(ArrayList::new));
         } catch (IOException e) {
             throw new TinManException("Error loading tasks from file: " + e.getMessage());
@@ -79,6 +88,9 @@ public class Storage {
         } catch (Exception e) {
             throw new TinManException("Data file is corrupted: " + e.getMessage());
         }
+
+        assert tasks != null : "Postcondition: loaded task list should never be null";
+        return tasks;
     }
 
     private void ensureDirectoryExists() throws IOException {

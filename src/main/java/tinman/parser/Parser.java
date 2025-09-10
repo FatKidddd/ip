@@ -74,6 +74,7 @@ public class Parser {
      * @throws TinManException If the input format is invalid or contains errors.
      */
     public static Task parseTask(String input) throws TinManException {
+        assert input != null : "Input cannot be null";
         String trimmedInput = input.trim();
         CommandType commandType = CommandType.parseString(getCommand(trimmedInput));
 
@@ -122,6 +123,7 @@ public class Parser {
      * @throws TinManException If the task number is invalid or missing.
      */
     public static int parseTaskNumber(String input) throws TinManException {
+        assert input != null : "Input cannot be null";
         try {
             String[] parts = input.split(" ", 2);
             if (parts.length <= 1) {
