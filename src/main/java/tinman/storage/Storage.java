@@ -8,6 +8,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import tinman.exception.TinManException;
 import tinman.task.Task;
@@ -72,15 +73,18 @@ public class Storage {
 
         try {
             List<String> lines = Files.readAllLines(Paths.get(filePath));
-            for (String line : lines) {
-                if (!line.trim().isEmpty()) {
-                    Task task = stringToTask(line);
-                    assert task != null : "Internal invariant: parsed task should not be null";
-                    tasks.add(task);
-                }
-            }
+            tasks = lines.stream()
+                    .filter(line -> !line.trim().isEmpty())
+                    .map(this::parseTaskFromLine)
+                    .peek(task -> assert task != null : "Internal invariant: parsed task should not be null")
+                    .collect(Collectors.toCollection(ArrayList::new));
         } catch (IOException e) {
             throw new TinManException("Error loading tasks from file: " + e.getMessage());
+        } catch (RuntimeException e) {
+            if (e.getCause() instanceof TinManException) {
+                throw (TinManException) e.getCause();
+            }
+            throw new TinManException("Data file is corrupted: " + e.getMessage());
         } catch (Exception e) {
             throw new TinManException("Data file is corrupted: " + e.getMessage());
         }
@@ -103,6 +107,22 @@ public class Storage {
 
     private Task stringToTask(String line) throws TinManException {
         return Saveable.fromSaveFormat(line);
+    }
+
+    /**
+     * Helper method to parse a task from a line, wrapping checked exceptions
+     * for use in streams.
+     *
+     * @param line The line to parse into a task.
+     * @return The parsed task.
+     * @throws RuntimeException If parsing fails, wrapping the original TinManException.
+     */
+    private Task parseTaskFromLine(String line) {
+        try {
+            return stringToTask(line);
+        } catch (TinManException e) {
+            throw new RuntimeException("Error parsing task: " + e.getMessage(), e);
+        }
     }
 }
 

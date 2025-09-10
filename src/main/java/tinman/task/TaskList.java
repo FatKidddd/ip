@@ -1,6 +1,8 @@
 package tinman.task;
 
 import java.util.ArrayList;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 import tinman.exception.TinManException;
 
@@ -87,11 +89,12 @@ public class TaskList {
         if (tasks.isEmpty()) {
             return "Here are the tasks in your list:\n (empty)";
         }
-        StringBuilder taskList = new StringBuilder("Here are the tasks in your list:");
-        for (int i = 0; i < tasks.size(); i++) {
-            taskList.append("\n ").append(i + 1).append(".").append(tasks.get(i));
-        }
-        return taskList.toString();
+
+        String taskListBody = IntStream.range(0, tasks.size())
+                .mapToObj(i -> "\n " + (i + 1) + "." + tasks.get(i))
+                .collect(Collectors.joining());
+
+        return "Here are the tasks in your list:" + taskListBody;
     }
 
     public ArrayList<Task> getTasks() {
@@ -108,18 +111,36 @@ public class TaskList {
         assert keyword != null : "Search keyword cannot be null";
         assert !keyword.trim().isEmpty() : "Search keyword cannot be empty";
 
-        ArrayList<Task> matchingTasks = new ArrayList<>();
         String lowerKeyword = keyword.toLowerCase().trim();
 
-        for (Task task : tasks) {
-            assert task != null : "Internal invariant: task in list should not be null";
-            if (task.getDescription().toLowerCase().contains(lowerKeyword)) {
-                matchingTasks.add(task);
-            }
-        }
+        ArrayList<Task> matchingTasks = tasks.stream()
+                .peek(task -> assert task != null : "Internal invariant: task in list should not be null")
+                .filter(task -> task.getDescription().toLowerCase().contains(lowerKeyword))
+                .collect(Collectors.toCollection(ArrayList::new));
 
         assert matchingTasks != null : "Postcondition: result should never be null";
         return matchingTasks;
+    }
+
+    /**
+     * Checks if any task in the list is marked as done.
+     *
+     * @return true if at least one task is done, false otherwise.
+     */
+    public boolean hasCompletedTasks() {
+        return tasks.stream()
+                .anyMatch(Task::getIsDone);
+    }
+
+    /**
+     * Returns the count of completed tasks using streams.
+     *
+     * @return Number of completed tasks.
+     */
+    public long getCompletedTaskCount() {
+        return tasks.stream()
+                .filter(Task::getIsDone)
+                .count();
     }
 
     /**
