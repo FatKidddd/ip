@@ -76,7 +76,9 @@ public class Storage {
             tasks = lines.stream()
                     .filter(line -> !line.trim().isEmpty())
                     .map(this::parseTaskFromLine)
-                    .peek(task -> assert task != null : "Internal invariant: parsed task should not be null")
+                    .peek(task -> {
+                        assert task != null : "Internal invariant: parsed task should not be null";
+                    })
                     .collect(Collectors.toCollection(ArrayList::new));
         } catch (IOException e) {
             throw new TinManException("Error loading tasks from file: " + e.getMessage());

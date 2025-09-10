@@ -114,7 +114,9 @@ public class TaskList {
         String lowerKeyword = keyword.toLowerCase().trim();
 
         ArrayList<Task> matchingTasks = tasks.stream()
-                .peek(task -> assert task != null : "Internal invariant: task in list should not be null")
+                .peek(task -> {
+                    assert task != null : "Internal invariant: task in list should not be null";
+                })
                 .filter(task -> task.getDescription().toLowerCase().contains(lowerKeyword))
                 .collect(Collectors.toCollection(ArrayList::new));
 
