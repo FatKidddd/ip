@@ -16,6 +16,8 @@ import tinman.ui.Ui;
  * including todos, deadlines, and events.
  */
 public class TinMan {
+    private static final int FIND_COMMAND_LENGTH = 4;
+    private static final int SINGULAR_TASK_COUNT = 1;
     private Storage storage;
     private TaskList tasks;
     private Ui ui;
@@ -105,7 +107,7 @@ public class TinMan {
     }
 
     private void handleFindCommand(String input) {
-        String keyword = input.substring(4).trim(); // Remove "find" and get the keyword
+        String keyword = extractSearchKeyword(input);
         if (keyword.isEmpty()) {
             ui.showError("Please provide a keyword to search for.");
             return;
@@ -211,7 +213,7 @@ public class TinMan {
             storage.save(tasks.getTasks());
             int remainingCount = tasks.getTaskCount();
             return "Noted. I've removed this task:\n  " + deletedTask
-                + "\nNow you have " + remainingCount + " task" + (remainingCount == 1 ? "" : "s") + " in the list.";
+                + "\nNow you have " + formatTaskCountMessage(remainingCount) + " in the list.";
         } catch (TinManException e) {
             return e.getMessage();
         }
@@ -224,19 +226,51 @@ public class TinMan {
             storage.save(tasks.getTasks());
             int taskCount = tasks.getTaskCount();
             return "Got it. I've added this task:\n  " + task
-                + "\nNow you have " + taskCount + " task" + (taskCount == 1 ? "" : "s") + " in the list.";
+                + "\nNow you have " + formatTaskCountMessage(taskCount) + " in the list.";
         } catch (TinManException e) {
             return e.getMessage();
         }
     }
 
     private String handleFindCommandForGui(String input) {
-        String keyword = input.substring(4).trim(); // Remove "find" and get the keyword
+        String keyword = extractSearchKeyword(input);
         if (keyword.isEmpty()) {
             return "Please provide a keyword to search for.";
         }
 
         ArrayList<Task> matchingTasks = tasks.findTasks(keyword);
+        return formatFindResults(matchingTasks);
+    }
+
+    /**
+     * Extracts the search keyword from the find command input.
+     * Removes the "find" prefix and trims whitespace.
+     *
+     * @param input The full find command input.
+     * @return The search keyword.
+     */
+    private String extractSearchKeyword(String input) {
+        return input.substring(FIND_COMMAND_LENGTH).trim();
+    }
+
+    /**
+     * Formats the task count message with proper singular/plural form.
+     *
+     * @param count The number of tasks.
+     * @return Formatted task count message.
+     */
+    private String formatTaskCountMessage(int count) {
+        String taskWord = (count == SINGULAR_TASK_COUNT) ? "task" : "tasks";
+        return count + " " + taskWord;
+    }
+
+    /**
+     * Formats the find results for display in GUI.
+     *
+     * @param matchingTasks List of tasks that match the search criteria.
+     * @return Formatted find results string.
+     */
+    private String formatFindResults(ArrayList<Task> matchingTasks) {
         if (matchingTasks.isEmpty()) {
             return "Here are the matching tasks in your list:\n (no matching tasks found)";
         }

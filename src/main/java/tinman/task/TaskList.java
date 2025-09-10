@@ -9,6 +9,7 @@ import tinman.exception.TinManException;
  * Provides operations for adding, deleting, retrieving, and searching tasks.
  */
 public class TaskList {
+    private static final int MINIMUM_VALID_INDEX = 0;
     private ArrayList<Task> tasks;
 
     public TaskList() {
@@ -41,9 +42,7 @@ public class TaskList {
      * @throws TinManException If the index is invalid.
      */
     public Task getTask(int index) throws TinManException {
-        if (index < 0 || index >= tasks.size()) {
-            throw new TinManException.TaskNotFoundException();
-        }
+        validateTaskIndex(index);
         return tasks.get(index);
     }
 
@@ -55,9 +54,7 @@ public class TaskList {
      * @throws TinManException If the index is invalid.
      */
     public Task deleteTask(int index) throws TinManException {
-        if (index < 0 || index >= tasks.size()) {
-            throw new TinManException.TaskNotFoundException();
-        }
+        validateTaskIndex(index);
         return tasks.remove(index);
     }
 
@@ -66,7 +63,7 @@ public class TaskList {
     }
 
     public boolean isValidIndex(int index) {
-        return index >= 0 && index < tasks.size();
+        return index >= MINIMUM_VALID_INDEX && index < tasks.size();
     }
 
     /**
@@ -105,5 +102,17 @@ public class TaskList {
             }
         }
         return matchingTasks;
+    }
+
+    /**
+     * Validates that the given index is within valid bounds.
+     *
+     * @param index The index to validate.
+     * @throws TinManException If the index is invalid.
+     */
+    private void validateTaskIndex(int index) throws TinManException {
+        if (index < MINIMUM_VALID_INDEX || index >= tasks.size()) {
+            throw new TinManException.TaskNotFoundException();
+        }
     }
 }
