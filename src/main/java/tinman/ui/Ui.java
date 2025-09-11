@@ -84,6 +84,15 @@ public class Ui {
     }
 
     /**
+     * Displays confirmation message when a task is updated.
+     *
+     * @param task The task that was updated.
+     */
+    public void showTaskUpdated(Task task) {
+        showMessage("Got it! I've updated this task:\n  " + task);
+    }
+
+    /**
      * Displays confirmation message when a task is deleted.
      *
      * @param task The task that was deleted.

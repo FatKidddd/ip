@@ -84,6 +84,30 @@ public class Deadline extends Task {
         return "D";
     }
 
+    /**
+     * Updates the deadline date.
+     *
+     * @param newBy The new deadline date/time as a string.
+     * @throws TinManException If date parsing fails.
+     */
+    public void updateDeadline(String newBy) throws TinManException {
+        try {
+            Object parsed = DateParser.parseFlexible(newBy);
+            if (parsed instanceof LocalDateTime) {
+                this.byDateTime = (LocalDateTime) parsed;
+                this.by = null;
+            } else if (parsed instanceof LocalDate) {
+                this.by = (LocalDate) parsed;
+                this.byDateTime = null;
+            }
+            this.byString = null;
+        } catch (TinManException e) {
+            this.by = null;
+            this.byDateTime = null;
+            this.byString = newBy;
+        }
+    }
+
     @Override
     public String toSaveFormat() {
         String status = isDone ? "1" : "0";

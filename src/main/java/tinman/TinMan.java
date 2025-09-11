@@ -6,6 +6,8 @@ import tinman.exception.TinManException;
 import tinman.parser.CommandType;
 import tinman.parser.Parser;
 import tinman.storage.Storage;
+import tinman.task.Deadline;
+import tinman.task.Event;
 import tinman.task.Task;
 import tinman.task.TaskList;
 import tinman.ui.Ui;
@@ -117,6 +119,96 @@ public class TinMan {
         ui.showFindResults(matchingTasks);
     }
 
+    private void handleUpdateCommand(String input) {
+        try {
+            String[] updateParts = Parser.parseUpdateCommand(input);
+            int taskIndex = Integer.parseInt(updateParts[0]) - 1;
+            String parameters = updateParts[1];
+
+            Task task = tasks.getTask(taskIndex);
+            processUpdateParameters(task, parameters);
+
+            storage.save(tasks.getTasks());
+            ui.showTaskUpdated(task);
+        } catch (NumberFormatException e) {
+            ui.showError("Invalid task number format.");
+        } catch (TinManException e) {
+            ui.showError(e.getMessage());
+        }
+    }
+
+    private void processUpdateParameters(Task task, String parameters) throws TinManException {
+        if (parameters.startsWith("/desc ")) {
+            String newDescription = parameters.substring(6).trim();
+            if (newDescription.isEmpty()) {
+                throw new TinManException("Description cannot be empty.");
+            }
+            task.updateDescription(newDescription);
+        } else if (parameters.startsWith("/by ") && task instanceof Deadline) {
+            String newDeadline = parameters.substring(4).trim();
+            if (newDeadline.isEmpty()) {
+                throw new TinManException("Deadline cannot be empty.");
+            }
+            Deadline deadline = (Deadline) task;
+            deadline.updateDeadline(newDeadline);
+        } else if (parameters.contains("/from ") && parameters.contains("/to ") && task instanceof Event) {
+            // Handle event updates with optional description
+            Event event = (Event) task;
+
+            if (parameters.startsWith("/from ")) {
+                // Only updating times, no description
+                String[] eventParts = Parser.extractParts(
+                        parameters, " /from ", "event", "/from <start> /to <end>");
+                String[] toParts = Parser.extractParts(
+                        eventParts[1], " /to ", "event", "/from <start> /to <end>");
+
+                String newFrom = toParts[0].trim();
+                String newTo = toParts[1].trim();
+
+                if (newFrom.isEmpty() || newTo.isEmpty()) {
+                    throw new TinManException("Event times cannot be empty.");
+                }
+
+                event.updateFrom(newFrom);
+                event.updateTo(newTo);
+            } else {
+                // Updating description and times
+                String[] descParts = Parser.extractParts(
+                        parameters, " /from ", "event", "/desc <description> /from <start> /to <end>");
+                String newDescription = descParts[0].trim();
+                String timesPart = descParts[1];
+
+                String[] toParts = Parser.extractParts(
+                        timesPart, " /to ", "event", "/from <start> /to <end>");
+
+                String newFrom = toParts[0].trim();
+                String newTo = toParts[1].trim();
+
+                if (newDescription.isEmpty() || newFrom.isEmpty() || newTo.isEmpty()) {
+                    throw new TinManException("Description and event times cannot be empty.");
+                }
+
+                event.updateDescription(newDescription);
+                event.updateFrom(newFrom);
+                event.updateTo(newTo);
+            }
+        } else {
+            String taskType = task instanceof Deadline ? "deadline"
+                    : task instanceof Event ? "event" : "todo";
+            String availableOptions;
+            if (taskType.equals("deadline")) {
+                availableOptions = "/desc <new description> or /by <new date>";
+            } else if (taskType.equals("event")) {
+                availableOptions = "/desc <new description>, /from <start> /to <end>, "
+                        + "or <description> /from <start> /to <end>";
+            } else {
+                availableOptions = "/desc <new description>";
+            }
+            throw new TinManException("Invalid update parameters for " + taskType + ". Available formats: "
+                    + availableOptions);
+        }
+    }
+
     private void processCommand(String input) {
         CommandType commandType = CommandType.parseString(Parser.getCommand(input));
 
@@ -138,6 +230,9 @@ public class TinMan {
             break;
         case FIND:
             handleFindCommand(input);
+            break;
+        case UPDATE:
+            handleUpdateCommand(input);
             break;
         default:
             handleAddTaskCommand(input);
@@ -189,6 +284,8 @@ public class TinMan {
             return handleDeleteCommandForGui(input);
         case FIND:
             return handleFindCommandForGui(input);
+        case UPDATE:
+            return handleUpdateCommandForGui(input);
         default:
             return handleAddTaskCommandForGui(input);
         }
@@ -240,6 +337,24 @@ public class TinMan {
 
         ArrayList<Task> matchingTasks = tasks.findTasks(keyword);
         return formatFindResults(matchingTasks);
+    }
+
+    private String handleUpdateCommandForGui(String input) {
+        try {
+            String[] updateParts = Parser.parseUpdateCommand(input);
+            int taskIndex = Integer.parseInt(updateParts[0]) - 1;
+            String parameters = updateParts[1];
+
+            Task task = tasks.getTask(taskIndex);
+            processUpdateParameters(task, parameters);
+
+            storage.save(tasks.getTasks());
+            return "Got it! I've updated this task:\n  " + task;
+        } catch (NumberFormatException e) {
+            return "Invalid task number format.";
+        } catch (TinManException e) {
+            return e.getMessage();
+        }
     }
 
     /**

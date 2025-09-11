@@ -87,6 +87,52 @@ public class Event extends Task {
         return "E";
     }
 
+    /**
+     * Updates the event start time.
+     *
+     * @param newFrom The new start time as a string.
+     */
+    public void updateFrom(String newFrom) {
+        try {
+            Object parsedFrom = DateParser.parseFlexible(newFrom);
+            if (parsedFrom instanceof LocalDateTime) {
+                this.fromDateTime = (LocalDateTime) parsedFrom;
+                this.fromDate = null;
+            } else if (parsedFrom instanceof LocalDate) {
+                this.fromDate = (LocalDate) parsedFrom;
+                this.fromDateTime = null;
+            }
+            this.from = null;
+        } catch (TinManException e) {
+            this.from = newFrom;
+            this.fromDate = null;
+            this.fromDateTime = null;
+        }
+    }
+
+    /**
+     * Updates the event end time.
+     *
+     * @param newTo The new end time as a string.
+     */
+    public void updateTo(String newTo) {
+        try {
+            Object parsedTo = DateParser.parseFlexible(newTo);
+            if (parsedTo instanceof LocalDateTime) {
+                this.toDateTime = (LocalDateTime) parsedTo;
+                this.toDate = null;
+            } else if (parsedTo instanceof LocalDate) {
+                this.toDate = (LocalDate) parsedTo;
+                this.toDateTime = null;
+            }
+            this.to = null;
+        } catch (TinManException e) {
+            this.to = newTo;
+            this.toDate = null;
+            this.toDateTime = null;
+        }
+    }
+
     @Override
     public String toSaveFormat() {
         String status = isDone ? "1" : "0";

@@ -53,6 +53,15 @@ public class Task implements Saveable {
         return isDone;
     }
 
+    /**
+     * Updates the task description.
+     *
+     * @param newDescription The new description for the task.
+     */
+    public void updateDescription(String newDescription) {
+        this.description = newDescription;
+    }
+
     @Override
     public String toString() {
         return "[" + getStatusIcon() + "] " + description;

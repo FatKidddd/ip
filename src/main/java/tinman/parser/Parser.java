@@ -17,7 +17,17 @@ public class Parser {
         }
     }
 
-    private static String[] extractParts(String input, String delimiter, String taskType, String format)
+    /**
+     * Extracts parts from input string using a delimiter.
+     *
+     * @param input The input string to split.
+     * @param delimiter The delimiter to split on.
+     * @param taskType The task type for error messages.
+     * @param format The expected format for error messages.
+     * @return Array containing parts before and after delimiter.
+     * @throws TinManException If delimiter is not found.
+     */
+    public static String[] extractParts(String input, String delimiter, String taskType, String format)
             throws TinManException {
         int delimiterIndex = input.indexOf(delimiter);
         if (delimiterIndex == -1) {
@@ -98,6 +108,7 @@ public class Parser {
         case MARK:
         case UNMARK:
         case DELETE:
+        case UPDATE:
         case BYE:
             throw new TinManException.UnknownCommandException();
         default:
@@ -113,6 +124,25 @@ public class Parser {
      */
     public static String getCommand(String input) {
         return input.trim().split(" ", 2)[0];
+    }
+
+    /**
+     * Parses update command parameters.
+     *
+     * @param input The user input string containing the update command.
+     * @return Array containing task number (as string) and update parameters.
+     * @throws TinManException If the update format is invalid.
+     */
+    public static String[] parseUpdateCommand(String input) throws TinManException {
+        assert input != null : "Input cannot be null";
+        String trimmedInput = input.trim();
+        String[] parts = trimmedInput.split(" ", 3);
+
+        if (parts.length < 3) {
+            throw new TinManException.InvalidFormatException("update <task number> <parameters>");
+        }
+
+        return new String[] { parts[1], parts[2] };
     }
 
     /**
