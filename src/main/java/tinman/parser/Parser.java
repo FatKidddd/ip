@@ -1,5 +1,6 @@
 package tinman.parser;
 
+import tinman.command.CommandType;
 import tinman.exception.TinManException;
 import tinman.task.Deadline;
 import tinman.task.Event;

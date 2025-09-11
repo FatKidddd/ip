@@ -1,7 +1,7 @@
 package tinman.storage;
 
+import tinman.command.CommandType;
 import tinman.exception.TinManException;
-import tinman.parser.CommandType;
 import tinman.task.Task;
 
 /**

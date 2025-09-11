@@ -1,8 +1,8 @@
 package tinman;
 
 import tinman.command.CommandProcessor;
+import tinman.command.CommandType;
 import tinman.exception.TinManException;
-import tinman.parser.CommandType;
 import tinman.parser.Parser;
 import tinman.storage.Storage;
 import tinman.task.TaskList;

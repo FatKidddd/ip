@@ -4,7 +4,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 import tinman.exception.TinManException;
-import tinman.parser.CommandType;
 import tinman.parser.Parser;
 import tinman.task.TaskList;
 
