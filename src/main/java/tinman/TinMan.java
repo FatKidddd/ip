@@ -12,7 +12,7 @@ import tinman.ui.Ui;
  * Represents the TinMan chat bot application.
  * TinMan is a personal task management assistant that helps users manage their tasks,
  * including todos, deadlines, and events.
- * 
+ *
  * This version uses the Command Pattern for cleaner separation of concerns.
  */
 public class TinMan {
@@ -32,7 +32,6 @@ public class TinMan {
         this.ui = new Ui();
         this.storage = new Storage(filePath);
         this.commandProcessor = new CommandProcessor();
-        
         TaskList loadedTasks;
         try {
             loadedTasks = new TaskList(storage.load());
@@ -63,14 +62,12 @@ public class TinMan {
     private String processInput(String input) {
         try {
             String result = commandProcessor.processCommand(input, tasks);
-            
             // Save to storage after successful command execution
             // (except for commands that don't modify data)
             CommandType commandType = CommandType.parseString(Parser.getCommand(input));
             if (shouldSaveAfterCommand(commandType)) {
                 storage.save(tasks.getTasks());
             }
-            
             return result;
         } catch (TinManException e) {
             return e.getMessage();

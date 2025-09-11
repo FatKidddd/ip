@@ -34,7 +34,6 @@ public class CommandProcessor {
         commands.put(CommandType.FIND, new FindCommand());
         commands.put(CommandType.UPDATE, new UpdateCommand());
         commands.put(CommandType.BYE, new ByeCommand());
-        
         // Task creation commands
         commands.put(CommandType.TODO, new AddTaskCommand());
         commands.put(CommandType.DEADLINE, new AddTaskCommand());
@@ -51,12 +50,10 @@ public class CommandProcessor {
      */
     public String processCommand(String input, TaskList tasks) throws TinManException {
         CommandType commandType = CommandType.parseString(Parser.getCommand(input));
-        
         Command command = commands.get(commandType);
         if (command == null) {
             throw new TinManException.UnknownCommandException();
         }
-        
         return command.execute(tasks, input);
     }
 }
