@@ -1,4 +1,4 @@
-package tinman.parser;
+package tinman.command;
 
 import tinman.exception.TinManException;
 import tinman.task.Deadline;
