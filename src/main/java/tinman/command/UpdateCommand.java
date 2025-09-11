@@ -107,7 +107,7 @@ public class UpdateCommand implements Command {
      * Updates only the event times.
      */
     private void updateTimesOnly(Event event, String parameters) throws TinManException {
-        String[] fromParts = Parser.extractParts(parameters, " /from ", "event", "/from <start> /to <end>");
+        String[] fromParts = Parser.extractParts(parameters, "/from ", "event", "/from <start> /to <end>");
         String[] toParts = Parser.extractParts(fromParts[1], " /to ", "event", "/from <start> /to <end>");
 
         String newFrom = toParts[0].trim();
