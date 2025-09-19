@@ -1,30 +1,47 @@
-# Duke User Guide
+# TinMan User Guide
 
-// Update the title above to match the actual product name
+![TinMan Screenshot](Ui.png)
 
-// Product screenshot goes here
+TinMan is a personal task management assistant that helps you manage todos, deadlines, and events.
 
-// Product intro goes here
+## Quick Start
 
-## Adding deadlines
+1. Ensure you have Java 17 installed.
+2. Download `tinman.jar`.
+3. Run `java -jar tinman.jar` to start the application.
+4. Type commands and press Enter.
 
-// Describe the action and its outcome.
+## Features
 
-// Give examples of usage
+### Adding Tasks
 
-Example: `keyword (optional arguments)`
+- **Todo**: `todo DESCRIPTION`
+  - Example: `todo read book`
 
-// A description of the expected outcome goes here
+- **Deadline**: `deadline DESCRIPTION /by DATE`
+  - Example: `deadline submit assignment /by 2023-12-01 2359`
 
-```
-expected output
-```
+- **Event**: `event DESCRIPTION /from START /to END`
+  - Example: `event meeting /from Mon 2pm /to Mon 4pm`
 
-## Feature ABC
+### Managing Tasks
 
-// Feature details
+- **List all tasks**: `list`
+- **Mark task as done**: `mark INDEX`
+- **Unmark task**: `unmark INDEX`
+- **Delete task**: `delete INDEX`
+- **Find tasks**: `find KEYWORD`
+- **Update task**: `update INDEX FIELD NEW_VALUE`
+- **Exit**: `bye`
 
+### Update Examples
 
-## Feature XYZ
+- `update 1 description new task name`
+- `update 2 by tomorrow 5pm`
+- `update 3 from 3pm`
 
-// Feature details
+## Notes
+
+- Task numbers start from 1
+- Dates can be flexible: `tomorrow`, `next Friday`, `2023-12-01 1800`
+- Tasks are automatically saved
