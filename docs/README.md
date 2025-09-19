@@ -31,14 +31,15 @@ TinMan is a personal task management assistant that helps you manage todos, dead
 - **Unmark task**: `unmark INDEX`
 - **Delete task**: `delete INDEX`
 - **Find tasks**: `find KEYWORD`
-- **Update task**: `update INDEX FIELD NEW_VALUE`
+- **Update task**: `update INDEX /PARAMETER VALUE`
 - **Exit**: `bye`
 
 ### Update Examples
 
-- `update 1 description new task name`
-- `update 2 by tomorrow 5pm`
-- `update 3 from 3pm`
+- **Update description**: `update 1 /desc new task name`
+- **Update deadline**: `update 2 /by tomorrow 5pm`
+- **Update event times**: `update 3 /from 2pm /to 4pm`
+- **Update event with description**: `update 3 meeting /from 2pm /to 4pm`
 
 ## Notes
 
